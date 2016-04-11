@@ -1,11 +1,8 @@
 <?php
 /**
  * Unit test class for the Meeting model.
- * @package kenobi883\GoToMeeting\Models
  */
-
 namespace kenobi883\GoToMeeting\Models;
-
 
 use Carbon\Carbon;
 
@@ -99,56 +96,58 @@ class MeetingTest extends \PHPUnit_Framework_TestCase
 
     public function futureMeetingProvider()
     {
-        $responseArray = array(
-            'uniqueMeetingId' => 1230000000456789,
-            'meetingId' => 123456789,
-            'createTime' => '2012-06-25T22:10:46.+0000',
-            'status' => 'INACTIVE',
-            'subject' => 'test',
-            'startTime' => '2012-12-01T09:00:00.+0000',
-            'endTime' => '2012-12-01T10:00:00.+0000',
+        $responseArray = [
+            'uniqueMeetingId'    => 1230000000456789,
+            'meetingId'          => 123456789,
+            'createTime'         => '2012-06-25T22:10:46.+0000',
+            'status'             => 'INACTIVE',
+            'subject'            => 'test',
+            'startTime'          => '2012-12-01T09:00:00.+0000',
+            'endTime'            => '2012-12-01T10:00:00.+0000',
             'conferenceCallInfo' => 'Australia: +61 2 9037 1944\nCanada: +1 (647) 977-5956\nUnited Kingdom: +44 (0) 207 151 1850\nIreland: +353 (0) 15 290 180\nUnited States: +1 (773) 945-1031\nAccess Code: 111-952-374',
-            'passwordRequired' => 'false',
-            'meetingType' => 'scheduled',
-            'maxParticipants' => 25
-        );
-        return array(
-            array(
-                $responseArray
-            )
-        );
+            'passwordRequired'   => 'false',
+            'meetingType'        => 'scheduled',
+            'maxParticipants'    => 25,
+        ];
+
+        return [
+            [
+                $responseArray,
+            ],
+        ];
     }
 
     public function historicalMeetingProvider()
     {
-        $responseArray = array(
-            'organizerkey' => '123456',
+        $responseArray = [
+            'organizerkey'       => '123456',
             'meetingInstanceKey' => 300000000001087884,
-            'meetingId' => 340974607,
-            'uniqueMeetingId' => 300000000001110778,
-            'subject' => 'Meet Now',
-            'date' => '2012-06-13T12:48:13.+0000',
-            'duration' => 60,
-            'numAttendees' => 2
-        );
-        return array(
-            array(
-                $responseArray
-            )
-        );
+            'meetingId'          => 340974607,
+            'uniqueMeetingId'    => 300000000001110778,
+            'subject'            => 'Meet Now',
+            'date'               => '2012-06-13T12:48:13.+0000',
+            'duration'           => 60,
+            'numAttendees'       => 2,
+        ];
+
+        return [
+            [
+                $responseArray,
+            ],
+        ];
     }
 
     public function createMeetingProvider()
     {
-        $jsonArray = array(
-            'subject' => 'test',
-            'starttime' => '2011-12-01T09:00:00Z',
-            'endtime' => '2012-11-01T10:00:00Z',
-            'passwordrequired' => 'false',
+        $jsonArray = [
+            'subject'            => 'test',
+            'starttime'          => '2011-12-01T09:00:00Z',
+            'endtime'            => '2012-11-01T10:00:00Z',
+            'passwordrequired'   => 'false',
             'conferencecallinfo' => 'Hybrid',
-            'timezonekey' => '',
-            'meetingtype' => 'Scheduled'
-        );
+            'timezonekey'        => '',
+            'meetingtype'        => 'Scheduled',
+        ];
         $meeting = new Meeting();
         $meeting->setSubject($jsonArray['subject']);
         $meeting->setStartTime(new Carbon($jsonArray['starttime']));
@@ -156,25 +155,26 @@ class MeetingTest extends \PHPUnit_Framework_TestCase
         $meeting->setPasswordRequired(false);
         $meeting->setConferenceCallInfo($jsonArray['conferencecallinfo']);
         $meeting->setMeetingType($jsonArray['meetingtype']);
-        return array(
-            array(
+
+        return [
+            [
                 $meeting,
-                $jsonArray
-            )
-        );
+                $jsonArray,
+            ],
+        ];
     }
 
     public function updateMeetingProvider()
     {
-        $jsonArray = array(
-            'subject' => 'test',
-            'starttime' => '2011-12-01T09:00:00Z',
-            'endtime' => '2012-11-01T10:00:00Z',
-            'passwordrequired' => 'false',
+        $jsonArray = [
+            'subject'            => 'test',
+            'starttime'          => '2011-12-01T09:00:00Z',
+            'endtime'            => '2012-11-01T10:00:00Z',
+            'passwordrequired'   => 'false',
             'conferencecallinfo' => 'Hybrid',
-            'timezonekey' => '',
-            'meetingtype' => 'Scheduled',
-        );
+            'timezonekey'        => '',
+            'meetingtype'        => 'Scheduled',
+        ];
         $meeting = new Meeting();
         $meeting->setSubject($jsonArray['subject']);
         $meeting->setStartTime(new Carbon($jsonArray['starttime']));
@@ -182,16 +182,16 @@ class MeetingTest extends \PHPUnit_Framework_TestCase
         $meeting->setPasswordRequired(false);
         $meeting->setConferenceCallInfo($jsonArray['conferencecallinfo']);
         $meeting->setMeetingType($jsonArray['meetingtype']);
-        $recurringJsonArray = array(
-            'subject' => 'test',
-            'starttime' => '2011-12-01T09:00:00Z',
-            'endtime' => '2012-11-01T10:00:00Z',
-            'passwordrequired' => 'false',
-            'conferencecallinfo' => 'Hybrid',
-            'timezonekey' => '',
-            'meetingtype' => 'Recurring',
-            'uniquemeetinginstance' => 1230000000456789
-        );
+        $recurringJsonArray = [
+            'subject'               => 'test',
+            'starttime'             => '2011-12-01T09:00:00Z',
+            'endtime'               => '2012-11-01T10:00:00Z',
+            'passwordrequired'      => 'false',
+            'conferencecallinfo'    => 'Hybrid',
+            'timezonekey'           => '',
+            'meetingtype'           => 'Recurring',
+            'uniquemeetinginstance' => 1230000000456789,
+        ];
         $recurringMeeting = new Meeting();
         $recurringMeeting->setSubject($recurringJsonArray['subject']);
         $recurringMeeting->setStartTime(new Carbon($recurringJsonArray['starttime']));
@@ -200,16 +200,16 @@ class MeetingTest extends \PHPUnit_Framework_TestCase
         $recurringMeeting->setConferenceCallInfo($recurringJsonArray['conferencecallinfo']);
         $recurringMeeting->setMeetingType($recurringJsonArray['meetingtype']);
         $recurringMeeting->setUniqueMeetingId($recurringJsonArray['uniquemeetinginstance']);
-        return array(
-            array(
+
+        return [
+            [
                 $meeting,
-                $jsonArray
-            ),
-            array(
+                $jsonArray,
+            ],
+            [
                 $recurringMeeting,
-                $recurringJsonArray
-            )
-        );
+                $recurringJsonArray,
+            ],
+        ];
     }
 }
- 

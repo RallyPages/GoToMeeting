@@ -1,11 +1,8 @@
 <?php
 /**
  * Base TestCase class for a live service test.
- * @package \kenobi883\GoToMeeting
  */
-
 namespace kenobi883\GoToMeeting;
-
 
 use GuzzleHttp\Subscriber\Log\Formatter;
 use GuzzleHttp\Subscriber\Log\LogSubscriber;
@@ -36,6 +33,7 @@ abstract class LiveServiceTestCase extends \PHPUnit_Framework_TestCase
         $authService = new AuthService($client);
         $auth = $authService->authenticate($liveCredentials['userId'], $liveCredentials['password']);
         $client->setAuth($auth);
+
         return $client;
     }
 }

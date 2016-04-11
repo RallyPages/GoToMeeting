@@ -1,15 +1,12 @@
 <?php
 /**
  * Live test class for the auth service.
- * @package \kenobi883\GoToMeeting\Services\Live
  */
-
 namespace kenobi883\GoToMeeting\Services\Live;
-
 
 use kenobi883\GoToMeeting\Services\AuthService;
 
-require_once(__DIR__ . '/../../LiveServiceTestCase.php');
+require_once __DIR__.'/../../LiveServiceTestCase.php';
 
 class AuthServiceTest extends \kenobi883\GoToMeeting\LiveServiceTestCase
 {
@@ -21,11 +18,11 @@ class AuthServiceTest extends \kenobi883\GoToMeeting\LiveServiceTestCase
     public function __construct()
     {
         parent::__construct();
-        $this->liveCredentials = array(
-            'apiKey' => '',
-            'userId' => '',
-            'password' => ''
-        );
+        $this->liveCredentials = [
+            'apiKey'   => '',
+            'userId'   => '',
+            'password' => '',
+        ];
         if (strlen($this->liveCredentials['apiKey']) > 0) {
             $this->client = $this->configureLiveClient($this->liveCredentials);
         }
@@ -45,4 +42,3 @@ class AuthServiceTest extends \kenobi883\GoToMeeting\LiveServiceTestCase
         $this->assertInstanceOf('\kenobi883\GoToMeeting\Models\Auth', $auth);
     }
 }
- 

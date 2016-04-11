@@ -1,26 +1,23 @@
 <?php
 /**
  * Unit test class for Attendee model.
- * @package kenobi883\GoToMeeting\Models
  */
-
 namespace kenobi883\GoToMeeting\Models;
-
 
 class AttendeeTest extends \PHPUnit_Framework_TestCase
 {
     protected $responseArray;
-    
+
     public function setUp()
     {
-        $this->responseArray = array(
+        $this->responseArray = [
             'firstName' => 'Deepak',
-            'lastName' => 'George',
-            'email' => 'deepak@somewhere.com',
-            'groupName' => 'Some Group, Inc.'
-        );
+            'lastName'  => 'George',
+            'email'     => 'deepak@somewhere.com',
+            'groupName' => 'Some Group, Inc.',
+        ];
     }
-    
+
     public function testParseFromJson()
     {
         $attendeeObject = new Attendee();
@@ -49,4 +46,3 @@ class AttendeeTest extends \PHPUnit_Framework_TestCase
         $this->assertContains($attendeeObject->getFirstName(), $attendeeJson);
     }
 }
- 

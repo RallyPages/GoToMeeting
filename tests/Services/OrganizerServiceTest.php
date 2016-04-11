@@ -1,10 +1,8 @@
 <?php
 /**
  * Test class for the Organizer service.
- * @package \kenobi883\GoToMeeting\Services
  */
 namespace Services;
-
 
 use kenobi883\GoToMeeting\Models\Organizer;
 use kenobi883\GoToMeeting\Services\MeetingService;
@@ -14,21 +12,21 @@ class OrganizerServiceTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetOrganizerById()
     {
-        $responseArray = array(
-            'organizerkey' => 123456,
-            'groupkey' => 789,
-            'email' => 'test@test.com',
-            'firstname' => 'Test',
-            'lastname' => 'Test',
-            'groupname' => 'testgroup',
-            'status' => 'active',
-            'maxnumattendeesallowed' => 25
-        );
+        $responseArray = [
+            'organizerkey'           => 123456,
+            'groupkey'               => 789,
+            'email'                  => 'test@test.com',
+            'firstname'              => 'Test',
+            'lastname'               => 'Test',
+            'groupname'              => 'testgroup',
+            'status'                 => 'active',
+            'maxnumattendeesallowed' => 25,
+        ];
         $expectedOrganizer = new Organizer($responseArray);
         $client = $this->getMockBuilder('Client')
-            ->setMethods(array(
-                'sendRequest'
-            ))
+            ->setMethods([
+                'sendRequest',
+            ])
             ->getMock();
         $client->method('sendRequest')
             ->will($this->returnValue($responseArray));
@@ -40,21 +38,21 @@ class OrganizerServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOrganizerByEmail()
     {
-        $responseArray = array(
-            'organizerkey' => 123456,
-            'groupkey' => 789,
-            'email' => 'test@test.com',
-            'firstname' => 'Test',
-            'lastname' => 'Test',
-            'groupname' => 'testgroup',
-            'status' => 'active',
-            'maxnumattendeesallowed' => 25
-        );
+        $responseArray = [
+            'organizerkey'           => 123456,
+            'groupkey'               => 789,
+            'email'                  => 'test@test.com',
+            'firstname'              => 'Test',
+            'lastname'               => 'Test',
+            'groupname'              => 'testgroup',
+            'status'                 => 'active',
+            'maxnumattendeesallowed' => 25,
+        ];
         $expectedOrganizer = new Organizer($responseArray);
         $client = $this->getMockBuilder('Client')
-            ->setMethods(array(
-                'sendRequest'
-            ))
+            ->setMethods([
+                'sendRequest',
+            ])
             ->getMock();
         $client->method('sendRequest')
             ->will($this->returnValue($responseArray));
@@ -66,23 +64,23 @@ class OrganizerServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOrganizersByGroup()
     {
-        $responseArray = array(
-            array(
-                'organizerkey' => 123456,
-                'groupkey' => 789,
-                'email' => 'test@test.com',
-                'firstname' => 'Test',
-                'lastname' => 'Test',
-                'groupname' => 'testgroup',
-                'status' => 'active',
-                'maxnumattendeesallowed' => 25
-            )
-        );
+        $responseArray = [
+            [
+                'organizerkey'           => 123456,
+                'groupkey'               => 789,
+                'email'                  => 'test@test.com',
+                'firstname'              => 'Test',
+                'lastname'               => 'Test',
+                'groupname'              => 'testgroup',
+                'status'                 => 'active',
+                'maxnumattendeesallowed' => 25,
+            ],
+        ];
         $expectedOrganizer = new Organizer($responseArray[0]);
         $client = $this->getMockBuilder('Client')
-            ->setMethods(array(
-                'sendRequest'
-            ))
+            ->setMethods([
+                'sendRequest',
+            ])
             ->getMock();
         $client->method('sendRequest')
             ->will($this->returnValue($responseArray));
@@ -99,9 +97,9 @@ class OrganizerServiceTest extends \PHPUnit_Framework_TestCase
     public function testCreateOrganizer($groupKey, Organizer $organizer, $response)
     {
         $client = $this->getMockBuilder('Client')
-            ->setMethods(array(
-                'sendRequest'
-            ))
+            ->setMethods([
+                'sendRequest',
+            ])
             ->getMock();
         $client->method('sendRequest')
             ->will($this->returnValue($response));
@@ -125,13 +123,13 @@ class OrganizerServiceTest extends \PHPUnit_Framework_TestCase
     public function testUpdateOrganizerStatus($organizerKey, $isActive)
     {
         $client = $this->getMockBuilder('Client')
-            ->setMethods(array(
-                'sendRequest'
-            ))
+            ->setMethods([
+                'sendRequest',
+            ])
             ->getMock();
-        $requestBody = array(
-            'status' => $isActive ? 'active' : 'suspended'
-        );
+        $requestBody = [
+            'status' => $isActive ? 'active' : 'suspended',
+        ];
         $client->expects($this->once())
             ->method('sendRequest')
             ->with($this->equalTo('PUT'),
@@ -150,9 +148,9 @@ class OrganizerServiceTest extends \PHPUnit_Framework_TestCase
     public function testDeleteOrganizer($organizerKey)
     {
         $client = $this->getMockBuilder('Client')
-            ->setMethods(array(
-                'sendRequest'
-            ))
+            ->setMethods([
+                'sendRequest',
+            ])
             ->getMock();
         $client->expects($this->once())
             ->method('sendRequest')
@@ -169,9 +167,9 @@ class OrganizerServiceTest extends \PHPUnit_Framework_TestCase
     public function testDeleteOrganizerByEmail($groupKey, Organizer $organizer)
     {
         $client = $this->getMockBuilder('Client')
-            ->setMethods(array(
-                'sendRequest'
-            ))
+            ->setMethods([
+                'sendRequest',
+            ])
             ->getMock();
         $client->expects($this->once())
             ->method('sendRequest')
@@ -188,22 +186,22 @@ class OrganizerServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetAttendeesByOrganizer($organizerKey, \DateTime $startDate, \DateTime $endDate, $responseArray)
     {
         $client = $this->getMockBuilder('Client')
-            ->setMethods(array(
-                'sendRequest'
-            ))
+            ->setMethods([
+                'sendRequest',
+            ])
             ->getMock();
         $client->method('sendRequest')
-            ->will($this->returnValue(array(
-                $responseArray
-            )));
+            ->will($this->returnValue([
+                $responseArray,
+            ]));
         $client->expects($this->once())
             ->method('sendRequest')
             ->with($this->stringContains('GET', false),
                 $this->stringContains("organizers/{$organizerKey}/attendees"),
-                $this->attributeEqualTo('data', array(
+                $this->attributeEqualTo('data', [
                     'startDate' => $startDate->format(MeetingService::DATE_FORMAT_INPUT),
-                    'endDate' => $endDate->format(MeetingService::DATE_FORMAT_INPUT)
-                )));
+                    'endDate'   => $endDate->format(MeetingService::DATE_FORMAT_INPUT),
+                ]));
         $groupService = new OrganizerService($client);
         $actualResponse = $groupService->getAttendeesByOrganizer($organizerKey, $startDate, $endDate);
         $this->assertArrayHasKey('meetings', $actualResponse);
@@ -223,25 +221,27 @@ class OrganizerServiceTest extends \PHPUnit_Framework_TestCase
         $organizer->setFirstName('Jane');
         $organizer->setLastName('Smith');
         $organizer->setProductType('g2m');
-        return array(
-            array(
+
+        return [
+            [
                 $groupKey,
                 $organizer,
-                $response
-            )
-        );
+                $response,
+            ],
+        ];
     }
 
     public function updateOrganizer()
     {
         $organizerKey = 66778899;
         $isActive = false;
-        return array(
-            array(
+
+        return [
+            [
                 $organizerKey,
-                $isActive
-            )
-        );
+                $isActive,
+            ],
+        ];
     }
 
     public function attendeesByOrganizerProvider()
@@ -250,23 +250,23 @@ class OrganizerServiceTest extends \PHPUnit_Framework_TestCase
         $startDate = new \DateTime();
         $endDate = new \DateTime();
         $endDate->add(new \DateInterval('P1W'));
-        $responseArray = array(
-            array(
-                'name' => 'John Smith',
-                'email' => 'johnsmith@example.com',
+        $responseArray = [
+            [
+                'name'      => 'John Smith',
+                'email'     => 'johnsmith@example.com',
                 'meetingId' => 123456789,
                 'startTime' => '2012-12-01T09:00:00.+0000',
-                'endTime' => '2012-12-01T10:00:00.+0000'
-            )
-        );
-        return array(
-            array(
+                'endTime'   => '2012-12-01T10:00:00.+0000',
+            ],
+        ];
+
+        return [
+            [
                 $organizerKey,
                 $startDate,
                 $endDate,
-                $responseArray
-            )
-        );
+                $responseArray,
+            ],
+        ];
     }
 }
- 

@@ -1,33 +1,31 @@
 <?php
 /**
- * Test class for the Authentication service
- * @package \kenobi883\GoToMeeting\Services
+ * Test class for the Authentication service.
  */
-
 namespace kenobi883\GoToMeeting\Services;
 
-use \kenobi883\GoToMeeting\Models\Auth;
+use kenobi883\GoToMeeting\Models\Auth;
 
 class AuthServiceTest extends \PHPUnit_Framework_TestCase
 {
     public function testAuthenticateSuccess()
     {
-        $responseArray = array(
-            'access_token' => '3645136ef45675a113adb18027dd7df8',
-            'expires_in' => '30758399',
+        $responseArray = [
+            'access_token'  => '3645136ef45675a113adb18027dd7df8',
+            'expires_in'    => '30758399',
             'refresh_token' => '1dd48bf4aa453162521250d772a03ae6',
             'organizer_key' => '300000000000384444',
-            'account_key' => '300000000000329487',
-            'account_type' => 'corporate',
-            'firstName' => 'Test',
-            'lastName' => 'Test',
-            'email' => 'test@test.com'
-        );
+            'account_key'   => '300000000000329487',
+            'account_type'  => 'corporate',
+            'firstName'     => 'Test',
+            'lastName'      => 'Test',
+            'email'         => 'test@test.com',
+        ];
         $expectedAuth = new Auth($responseArray);
-        $clientMock = $this->getMock('Client', array(
+        $clientMock = $this->getMock('Client', [
             'sendRequest',
-            'getApiKey'
-        ));
+            'getApiKey',
+        ]);
         $clientMock->method('sendRequest')
             ->will($this->returnValue($responseArray));
         $clientMock->method('getApiKey')
@@ -38,4 +36,3 @@ class AuthServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedAuth, $actualAuth);
     }
 }
- 

@@ -1,9 +1,7 @@
 <?php
 /**
  * Service to interact with groups endpoint.
- * @package kenobi883\GoToMeeting\Services
  */
-
 namespace kenobi883\GoToMeeting\Services;
 
 use kenobi883\GoToMeeting\Models\Attendee;
@@ -28,10 +26,11 @@ class GroupService extends AbstractService
     public function getGroups()
     {
         $jsonBody = $this->client->sendRequest('GET', $this->endpoint);
-        $groups = array();
+        $groups = [];
         foreach ($jsonBody as $groupResponse) {
             $groups[] = new Group($groupResponse);
         }
+
         return $groups;
     }
 
@@ -39,23 +38,26 @@ class GroupService extends AbstractService
      * Get the organizers for a particular group.
      *
      * @param int $groupKey
+     *
      * @return array Organizers for the account
      */
     public function getOrganizersByGroup($groupKey)
     {
         $jsonBody = $this->client->sendRequest('GET', "{$this->endpoint}/{$groupKey}/organizers");
-        $organizers = array();
+        $organizers = [];
         foreach ($jsonBody as $organizerResponse) {
             $organizers[] = new Organizer($organizerResponse);
         }
+
         return $organizers;
     }
 
     /**
      * Create a new organizer in the specified group.
      *
-     * @param int $groupKey
+     * @param int       $groupKey
      * @param Organizer $organizer
+     *
      * @return Organizer with organizer key specified
      */
     public function createOrganizer($groupKey, Organizer $organizer)
@@ -63,25 +65,28 @@ class GroupService extends AbstractService
         $url = "{$this->endpoint}/{$groupKey}/organizers";
         $jsonBody = $this->client->sendRequest('POST', $url, null, false, $organizer->toArrayForApi());
         $organizer->setOrganizerKey($jsonBody);
+
         return $organizer;
     }
 
     /**
      * Get historical or scheduled meetings by group.
      *
-     * @param string $groupKey
-     * @param bool $historical
+     * @param string    $groupKey
+     * @param bool      $historical
      * @param \DateTime $startDate
      * @param \DateTime $endDate
-     * @return array Meetings for the given group and optional date range
+     *
      * @throws \Exception
+     *
+     * @return array Meetings for the given group and optional date range
      */
     public function getMeetingsByGroup($groupKey, $historical = false, \DateTime $startDate = null, \DateTime $endDate = null)
     {
         if ($historical === true && ($startDate === null || $endDate === null)) {
             throw new \Exception('To retrieve historical meetings, startDate and endDate must be specified.');
         }
-        $query = array();
+        $query = [];
         $url = "{$this->endpoint}/{$groupKey}/meetings";
 
         if ($historical === true) {
@@ -92,8 +97,7 @@ class GroupService extends AbstractService
             $query['historical'] = 'true';
             $query['startDate'] = $startDate->format(MeetingService::DATE_FORMAT_INPUT);
             $query['endDate'] = $endDate->format(MeetingService::DATE_FORMAT_INPUT);
-        }
-        else {
+        } else {
             $query['scheduled'] = 'true';
         }
 
@@ -101,42 +105,45 @@ class GroupService extends AbstractService
         $jsonBody = $this->client->sendRequest('GET', $url, $query);
 
         // Parse each meeting result
-        $meetings = array();
+        $meetings = [];
         foreach ($jsonBody as $oneMeeting) {
             $meeting = new Meeting($oneMeeting);
             $meetings[] = $meeting;
         }
+
         return $meetings;
     }
 
     /**
      * Get attendee information for a given group and date range.
      *
-     * @param string $groupKey
+     * @param string    $groupKey
      * @param \DateTime $startDate
      * @param \DateTime $endDate
+     *
      * @return array includes `meetings` and `attendees` keys mapping to arrays of the Meeting and Attendee
-     *  instances returned from the API
+     *               instances returned from the API
      */
     public function getAttendeesByGroup($groupKey, \DateTime $startDate, \DateTime $endDate)
     {
         $url = "{$this->endpoint}/{$groupKey}/attendees";
-        $query = array();
+        $query = [];
         $query['startDate'] = $startDate->format(MeetingService::DATE_FORMAT_INPUT);
         $query['endDate'] = $endDate->format(MeetingService::DATE_FORMAT_INPUT);
 
         $jsonBody = $this->client->sendRequest('GET', $url, $query);
-        $meetings = array();
-        $attendees = array();
+        $meetings = [];
+        $attendees = [];
         foreach ($jsonBody as $meetingAttendee) {
             $meeting = new Meeting($meetingAttendee);
             $attendee = new Attendee($meetingAttendee);
             $meetings[] = $meeting;
             $attendees[] = $attendee;
         }
-        return array(
-            'meetings' => $meetings,
-            'attendees' => $attendees
-        );
+
+        return [
+            'meetings'  => $meetings,
+            'attendees' => $attendees,
+        ];
     }
 }

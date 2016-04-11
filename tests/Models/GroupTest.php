@@ -3,27 +3,25 @@
  * Created by IntelliJ IDEA.
  * User: Marc
  * Date: 7/17/2014
- * Time: 7:51 PM
+ * Time: 7:51 PM.
  */
-
 namespace kenobi883\GoToMeeting\Models;
-
 
 class GroupTest extends \PHPUnit_Framework_TestCase
 {
     protected $responseArray;
-    
+
     public function setUp()
     {
-        $this->responseArray = array(
-            'groupkey' => 300000000000011,
-            'parentKey' => 300000000000011,
-            'groupName' => 'Something 1, Inc.',
-            'status' => 'active',
-            'numOrganizers' => 7
-        );
+        $this->responseArray = [
+            'groupkey'      => 300000000000011,
+            'parentKey'     => 300000000000011,
+            'groupName'     => 'Something 1, Inc.',
+            'status'        => 'active',
+            'numOrganizers' => 7,
+        ];
     }
-    
+
     public function testParseFromJson()
     {
         $group = new Group();
@@ -54,4 +52,3 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         $this->assertContains($groupObject->getGroupName(), $groupJson);
     }
 }
- 

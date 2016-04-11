@@ -1,11 +1,8 @@
 <?php
 /**
  * Representation of a group in the API.
- * @package kenobi883\GoToMeeting\Models
  */
-
 namespace kenobi883\GoToMeeting\Models;
-
 
 class Group implements \JsonSerializable
 {
@@ -37,7 +34,7 @@ class Group implements \JsonSerializable
     /**
      * @param array $response optional parameter to construct the group from a response object
      */
-    function __construct($response = array())
+    public function __construct($response = [])
     {
         $this->parseFromJson($response);
     }
@@ -146,10 +143,12 @@ class Group implements \JsonSerializable
 
     /**
      * (PHP 5 &gt;= 5.4.0)<br/>
-     * Specify data which should be serialized to JSON
+     * Specify data which should be serialized to JSON.
+     *
      * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     *
      * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
+     *               which is a value of any type other than a resource.
      */
     public function jsonSerialize()
     {

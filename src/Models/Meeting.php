@@ -1,16 +1,13 @@
 <?php
 /**
  * Representation of a meeting in the API.
- * @package kenobi883\GoToMeeting\Models
  */
-
 namespace kenobi883\GoToMeeting\Models;
+
 use kenobi883\GoToMeeting\Services\MeetingService;
 
 /**
- * Class Meeting
- *
- * @package kenobi883\GoToMeeting\Models
+ * Class Meeting.
  */
 class Meeting implements \JsonSerializable
 {
@@ -119,7 +116,7 @@ class Meeting implements \JsonSerializable
      *
      * @param array $response optional response body data to populate model
      */
-    public function __construct($response = array())
+    public function __construct($response = [])
     {
         $this->parseFromJson($response);
     }
@@ -221,7 +218,7 @@ class Meeting implements \JsonSerializable
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getPasswordRequired()
     {
@@ -229,7 +226,7 @@ class Meeting implements \JsonSerializable
     }
 
     /**
-     * @param boolean $passwordRequired
+     * @param bool $passwordRequired
      */
     public function setPasswordRequired($passwordRequired)
     {
@@ -441,8 +438,7 @@ class Meeting implements \JsonSerializable
             if (is_int($response['startTime'])) {
                 $startTime = new \DateTime('now', new \DateTimeZone('UTC'));
                 $startTime->setTimestamp($response['startTime'] / 1000);
-            }
-            else {
+            } else {
                 $startTime = new \DateTime($response['startTime']);
             }
             $this->setStartTime($startTime);
@@ -451,9 +447,9 @@ class Meeting implements \JsonSerializable
             if (is_int($response['endTime'])) {
                 $endTime = new \DateTime('now', new \DateTimeZone('UTC'));
                 $endTime->setTimestamp($response['endTime'] / 1000);
-            }
-            else
+            } else {
                 $endTime = new \DateTime($response['endTime']);
+            }
             $this->setEndTime($endTime);
         }
         if (isset($response['conferenceCallInfo'])) {
@@ -499,10 +495,12 @@ class Meeting implements \JsonSerializable
 
     /**
      * (PHP 5 &gt;= 5.4.0)<br/>
-     * Specify data which should be serialized to JSON
+     * Specify data which should be serialized to JSON.
+     *
      * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     *
      * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
+     *               which is a value of any type other than a resource.
      */
     public function jsonSerialize()
     {
@@ -516,7 +514,7 @@ class Meeting implements \JsonSerializable
      */
     public function toArrayForApi()
     {
-        $meetingArray = array();
+        $meetingArray = [];
         $meetingArray['subject'] = $this->getSubject();
         $meetingArray['starttime'] = $this->getStartTime()->format(MeetingService::DATE_FORMAT_INPUT);
         $meetingArray['endtime'] = $this->getEndTime()->format(MeetingService::DATE_FORMAT_INPUT);
@@ -527,6 +525,7 @@ class Meeting implements \JsonSerializable
         if ($this->getMeetingType() == self::TYPE_RECURRING) {
             $meetingArray['uniquemeetinginstance'] = $this->getUniqueMeetingId();
         }
+
         return $meetingArray;
     }
 }

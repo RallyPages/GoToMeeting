@@ -1,18 +1,19 @@
-<?php namespace kenobi883\GoToMeeting;
+<?php
+
+namespace kenobi883\GoToMeeting;
 
 use Illuminate\Support\ServiceProvider;
 
 /**
- *
- * GotoMeeting ServiceProvider
+ * GotoMeeting ServiceProvider.
  *
  * @category   Laravel GoToMeeting
- * @package    heydavid713/excel
+ *
  * @copyright  Copyright (c) 2016
  * @author     heydavid713 <heydavid713@aim.com>
  */
-class GoToMeetingServiceProvider extends ServiceProvider {
-
+class GoToMeetingServiceProvider extends ServiceProvider
+{
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -25,13 +26,11 @@ class GoToMeetingServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/config/citrix.php' => config_path('citrix.php'),
+            __DIR__.'/config/citrix.php' => config_path('citrix.php'),
         ]);
-
     }
 
     /**
@@ -41,7 +40,5 @@ class GoToMeetingServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-
     }
-
 }

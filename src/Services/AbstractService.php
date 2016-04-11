@@ -1,15 +1,11 @@
 <?php
 /**
  * Abstract service implementation.
- * @package kenobi883\GoToMeeting\Services
  */
-
 namespace kenobi883\GoToMeeting\Services;
 
 /**
  * Abstract service implementation. Additional services should extend this class.
- *
- * @package kenobi883\GoToMeeting\Services
  */
 class AbstractService
 {
@@ -32,5 +28,4 @@ class AbstractService
     {
         $this->client = $client;
     }
-
 }
