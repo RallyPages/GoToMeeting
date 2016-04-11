@@ -50,7 +50,7 @@ class Client
     {
         $this->apiKey = $apiKey;
         $this->guzzleClient = new \GuzzleHttp\Client(array(
-            'base_url' => $this->endpoint
+            'base_uri' => $this->endpoint
         ));
         if ($accessToken !== NULL) {
             $auth = new Auth();
