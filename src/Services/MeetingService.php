@@ -6,7 +6,6 @@
 
 namespace kenobi883\GoToMeeting\Services;
 
-use GuzzleHttp\Query;
 use kenobi883\GoToMeeting\Models\Attendee;
 use kenobi883\GoToMeeting\Models\Meeting;
 
@@ -73,8 +72,8 @@ class MeetingService extends AbstractService
      */
     public function getScheduledMeetings()
     {
-        $query = new Query();
-        $query->add('scheduled', 'true');
+        $query = [];
+        $query['scheduled'] = 'true';
         return $this->getMeetings($query);
     }
 
@@ -140,9 +139,9 @@ class MeetingService extends AbstractService
     public function getAttendeesByMeeting($meetingInstanceKey, \DateTime $startDate, \DateTime $endDate)
     {
         $url = "{$this->endpoint}/{$meetingInstanceKey}/attendees";
-        $query = new Query();
-        $query->add('startDate', $startDate->format(MeetingService::DATE_FORMAT_INPUT))
-            ->add('endDate', $endDate->format(MeetingService::DATE_FORMAT_INPUT));
+        $query = [];
+        $query['startDate'] = $startDate->format(MeetingService::DATE_FORMAT_INPUT);
+        $query['endDate'] = $endDate->format(MeetingService::DATE_FORMAT_INPUT);
         $jsonBody = $this->client->sendRequest('GET', $url, $query);
         $meetings = array();
         $attendees = array();
@@ -159,7 +158,7 @@ class MeetingService extends AbstractService
     /**
      * Retrieve a set of meetings using the specified query parameters.
      *
-     * @param \GuzzleHttp\Query $query
+     * @param array $query
      * @throws \Exception
      * @return array parsed Meeting objects
      */
