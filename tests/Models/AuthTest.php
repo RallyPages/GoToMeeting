@@ -1,31 +1,28 @@
 <?php
 /**
- * Auth model test class
- * @package \kenobi883\GoToMeeting\Models
+ * Auth model test class.
  */
-
 namespace kenobi883\GoToMeeting\Models;
-
 
 class AuthTest extends \PHPUnit_Framework_TestCase
 {
     protected $responseArray;
-    
+
     public function setUp()
     {
-        $this->responseArray = array(
-            'access_token' => '3645136ef45675a113adb18027dd7df8',
-            'expires_in' => '30758399',
+        $this->responseArray = [
+            'access_token'  => '3645136ef45675a113adb18027dd7df8',
+            'expires_in'    => '30758399',
             'refresh_token' => '1dd48bf4aa453162521250d772a03ae6',
             'organizer_key' => '300000000000384444',
-            'account_key' => '300000000000329487',
-            'account_type' => 'corporate',
-            'firstName' => 'Test',
-            'lastName' => 'Test',
-            'email' => 'test@test.com'
-        );
+            'account_key'   => '300000000000329487',
+            'account_type'  => 'corporate',
+            'firstName'     => 'Test',
+            'lastName'      => 'Test',
+            'email'         => 'test@test.com',
+        ];
     }
-    
+
     public function testParseFromJson()
     {
         $authObject = new Auth();

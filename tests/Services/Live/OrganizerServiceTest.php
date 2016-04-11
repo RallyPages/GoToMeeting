@@ -1,16 +1,13 @@
 <?php
 /**
  * Live test class for organizer service.
- * @package \kenobi883\GoToMeeting\Services\Live
  */
-
 namespace kenobi883\GoToMeeting\Services\Live;
-
 
 use kenobi883\GoToMeeting\Models\Organizer;
 use kenobi883\GoToMeeting\Services\OrganizerService;
 
-require_once(__DIR__ . '/../../LiveServiceTestCase.php');
+require_once __DIR__.'/../../LiveServiceTestCase.php';
 
 class OrganizerServiceTest extends \kenobi883\GoToMeeting\LiveServiceTestCase
 {
@@ -22,11 +19,11 @@ class OrganizerServiceTest extends \kenobi883\GoToMeeting\LiveServiceTestCase
     public function __construct()
     {
         parent::__construct();
-        $liveCredentials = array(
-            'apiKey' => '',
-            'userId' => '',
-            'password' => ''
-        );
+        $liveCredentials = [
+            'apiKey'   => '',
+            'userId'   => '',
+            'password' => '',
+        ];
         if (strlen($liveCredentials['apiKey']) > 0) {
             $this->client = $this->configureLiveClient($liveCredentials);
             $this->organizerService = new OrganizerService($this->client);
@@ -69,6 +66,4 @@ class OrganizerServiceTest extends \kenobi883\GoToMeeting\LiveServiceTestCase
         $this->assertInstanceOf('\kenobi883\GoToMeeting\Models\Organizer', $actualOrganizer);
         $this->assertAttributeNotEmpty('organizerKey', $actualOrganizer);
     }
-
 }
- 

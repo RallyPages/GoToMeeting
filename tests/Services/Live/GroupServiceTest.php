@@ -1,14 +1,12 @@
 <?php
 /**
  * Test class for the GroupService.
- * @package \kenobi883\GoToMeeting\Services\Live
  */
-
 namespace kenobi883\GoToMeeting\Services\Live;
 
 use kenobi883\GoToMeeting\Services\GroupService;
 
-require_once(__DIR__ . '/../../LiveServiceTestCase.php');
+require_once __DIR__.'/../../LiveServiceTestCase.php';
 
 class GroupServiceTest extends \kenobi883\GoToMeeting\LiveServiceTestCase
 {
@@ -20,11 +18,11 @@ class GroupServiceTest extends \kenobi883\GoToMeeting\LiveServiceTestCase
     public function __construct()
     {
         parent::__construct();
-        $liveCredentials = array(
-            'apiKey' => '',
-            'userId' => '',
-            'password' => ''
-        );
+        $liveCredentials = [
+            'apiKey'   => '',
+            'userId'   => '',
+            'password' => '',
+        ];
         if (strlen($liveCredentials['apiKey']) > 0) {
             $this->client = $this->configureLiveClient($liveCredentials);
             $this->groupService = new GroupService($this->client);
@@ -53,9 +51,8 @@ class GroupServiceTest extends \kenobi883\GoToMeeting\LiveServiceTestCase
 
     public function groupKey()
     {
-        return array(
-            array('input id here')
-        );
+        return [
+            ['input id here'],
+        ];
     }
 }
- 

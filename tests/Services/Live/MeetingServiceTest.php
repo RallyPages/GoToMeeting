@@ -1,16 +1,14 @@
 <?php
 /**
  * Test class for the MeetingService.
- * @package \kenobi883\GoToMeeting\Services\Live
  */
-
 namespace kenobi883\GoToMeeting\Services\Live;
 
 use Carbon\Carbon;
 use kenobi883\GoToMeeting\Models\Meeting;
 use kenobi883\GoToMeeting\Services\MeetingService;
 
-require_once(__DIR__ . '/../../LiveServiceTestCase.php');
+require_once __DIR__.'/../../LiveServiceTestCase.php';
 
 class MeetingServiceTest extends \kenobi883\GoToMeeting\LiveServiceTestCase
 {
@@ -22,11 +20,11 @@ class MeetingServiceTest extends \kenobi883\GoToMeeting\LiveServiceTestCase
     public function __construct()
     {
         parent::__construct();
-        $liveCredentials = array(
-            'apiKey' => '',
-            'userId' => '',
-            'password' => ''
-        );
+        $liveCredentials = [
+            'apiKey'   => '',
+            'userId'   => '',
+            'password' => '',
+        ];
         if (strlen($liveCredentials['apiKey']) > 0) {
             $this->client = $this->configureLiveClient($liveCredentials);
             $this->meetingService = new MeetingService($this->client);
@@ -78,6 +76,7 @@ class MeetingServiceTest extends \kenobi883\GoToMeeting\LiveServiceTestCase
         $this->assertAttributeNotEmpty('joinUrl', $actualMeeting);
         $this->assertObjectHasAttribute('meetingId', $actualMeeting);
         $this->assertAttributeNotEmpty('meetingId', $actualMeeting);
+
         return $actualMeeting;
     }
 
@@ -92,6 +91,7 @@ class MeetingServiceTest extends \kenobi883\GoToMeeting\LiveServiceTestCase
         $this->meetingService->updateMeeting($meeting);
         $actualMeeting = $this->meetingService->getMeeting($meeting->getMeetingId());
         $this->assertAttributeContains($modifiedSubject, 'subject', $actualMeeting);
+
         return $meeting;
     }
 
@@ -125,11 +125,11 @@ class MeetingServiceTest extends \kenobi883\GoToMeeting\LiveServiceTestCase
         $meeting->setPasswordRequired(false);
         $meeting->setConferenceCallInfo(Meeting::CONFERENCE_CALL_HYBRID);
         $meeting->setMeetingType(Meeting::TYPE_SCHEDULED);
-        return array(
-            array(
-                $meeting
-            )
-        );
+
+        return [
+            [
+                $meeting,
+            ],
+        ];
     }
 }
- 

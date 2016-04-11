@@ -1,14 +1,11 @@
 <?php
 /**
  * Representation of an organizer in the API.
- * @package kenobi883\GoToMeeting\Models
  */
-
 namespace kenobi883\GoToMeeting\Models;
 
 /**
- * Class Organizer
- * @package kenobi883\GoToMeeting\Models
+ * Class Organizer.
  */
 class Organizer implements \JsonSerializable
 {
@@ -62,7 +59,7 @@ class Organizer implements \JsonSerializable
      *
      * @param array $response optional parameter to pass in initial values (as if from a JSON response)
      */
-    public function __construct($response = array())
+    public function __construct($response = [])
     {
         $this->parseFromJson($response);
     }
@@ -249,10 +246,12 @@ class Organizer implements \JsonSerializable
 
     /**
      * (PHP 5 &gt;= 5.4.0)<br/>
-     * Specify data which should be serialized to JSON
+     * Specify data which should be serialized to JSON.
+     *
      * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     *
      * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
+     *               which is a value of any type other than a resource.
      */
     public function jsonSerialize()
     {
@@ -266,12 +265,13 @@ class Organizer implements \JsonSerializable
      */
     public function toArrayForApi()
     {
-        $organizerArray = array();
+        $organizerArray = [];
 
         $organizerArray['firstName'] = $this->getFirstName();
         $organizerArray['lastName'] = $this->getLastName();
         $organizerArray['organizerEmail'] = $this->getEmail();
         $organizerArray['productType'] = $this->getProductType();
+
         return $organizerArray;
     }
 }

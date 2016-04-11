@@ -1,30 +1,27 @@
 <?php
 /**
  * Unit test class for Organizer model.
- * @package kenobi883\GoToMeeting\Models
  */
-
 namespace kenobi883\GoToMeeting\Models;
-
 
 class OrganizerTest extends \PHPUnit_Framework_TestCase
 {
     protected $responseArray;
-    
+
     public function setUp()
     {
-        $this->responseArray = array(
-            'organizerkey' => 123456,
-            'groupkey' => 789,
-            'email' => 'test@test.com',
-            'firstname' => 'Test',
-            'lastname' => 'Test',
-            'groupname' => 'testgroup',
-            'status' => 'active',
-            'maxnumattendeesallowed' => 25
-        );
+        $this->responseArray = [
+            'organizerkey'           => 123456,
+            'groupkey'               => 789,
+            'email'                  => 'test@test.com',
+            'firstname'              => 'Test',
+            'lastname'               => 'Test',
+            'groupname'              => 'testgroup',
+            'status'                 => 'active',
+            'maxnumattendeesallowed' => 25,
+        ];
     }
-    
+
     public function testParseFromJson()
     {
         $organizerObject = new Organizer();

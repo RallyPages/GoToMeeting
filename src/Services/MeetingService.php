@@ -1,9 +1,7 @@
 <?php
 /**
  * Meeting service class.
- * @package kenobi883\GoToMeeting
  */
-
 namespace kenobi883\GoToMeeting\Services;
 
 use kenobi883\GoToMeeting\Models\Attendee;
@@ -11,8 +9,6 @@ use kenobi883\GoToMeeting\Models\Meeting;
 
 /**
  * Class MeetingService provides access to meeting API methods.
- *
- * @package kenobi883\GoToMeeting\Services
  */
 class MeetingService extends AbstractService
 {
@@ -27,12 +23,14 @@ class MeetingService extends AbstractService
      * Retrieve a specific meeting from the API.
      *
      * @param int $meetingId meeting to retrieve
+     *
      * @return \kenobi883\GoToMeeting\Models\Meeting
      */
     public function getMeeting($meetingId)
     {
         $jsonBody = $this->client->sendRequest('GET', "{$this->endpoint}/{$meetingId}");
         $meeting = new Meeting($jsonBody[0]);
+
         return $meeting;
     }
 
@@ -41,8 +39,10 @@ class MeetingService extends AbstractService
      *
      * @param \DateTime $startDate
      * @param \DateTime $endDate
-     * @return array parsed Meeting objects
+     *
      * @throws \Exception
+     *
+     * @return array parsed Meeting objects
      */
     public function getHistoricalMeetings(\DateTime $startDate = null, \DateTime $endDate = null)
     {
@@ -59,7 +59,7 @@ class MeetingService extends AbstractService
         $endDate->setTimezone($utcTimeZone);
 
         $query['startDate'] = $startDate->format(self::DATE_FORMAT_INPUT);
-        $query['endDate'] =  $endDate->format(self::DATE_FORMAT_INPUT);
+        $query['endDate'] = $endDate->format(self::DATE_FORMAT_INPUT);
         $query['history'] = 'true';
 
         return $this->getMeetings($query);
@@ -74,11 +74,13 @@ class MeetingService extends AbstractService
     {
         $query = [];
         $query['scheduled'] = 'true';
+
         return $this->getMeetings($query);
     }
 
     /**
      * @param Meeting $meeting
+     *
      * @return Meeting
      */
     public function createMeeting(Meeting $meeting)
@@ -88,6 +90,7 @@ class MeetingService extends AbstractService
 
         // Merge attributes returned in response to existing Meeting instance
         $meeting->parseFromJson($jsonBody[0]);
+
         return $meeting;
     }
 
@@ -117,11 +120,13 @@ class MeetingService extends AbstractService
      * Retrieve the join URL for the given meeting.
      *
      * @param int $meetingId
+     *
      * @return string
      */
     public function startMeeting($meetingId)
     {
         $responseArray = $this->client->sendRequest('GET', "{$this->endpoint}/{$meetingId}/start");
+
         return $responseArray['hostURL'];
     }
 
@@ -130,36 +135,40 @@ class MeetingService extends AbstractService
      *
      * Instance keys may only be obtained for historical meetings.
      *
-     * @param string $meetingInstanceKey
+     * @param string    $meetingInstanceKey
      * @param \DateTime $startDate
      * @param \DateTime $endDate
+     *
      * @return array includes `meetings` and `attendees` keys mapping to arrays of the Meeting and Attendee
-     *  instances returned from the API
+     *               instances returned from the API
      */
     public function getAttendeesByMeeting($meetingInstanceKey, \DateTime $startDate, \DateTime $endDate)
     {
         $url = "{$this->endpoint}/{$meetingInstanceKey}/attendees";
         $query = [];
-        $query['startDate'] = $startDate->format(MeetingService::DATE_FORMAT_INPUT);
-        $query['endDate'] = $endDate->format(MeetingService::DATE_FORMAT_INPUT);
+        $query['startDate'] = $startDate->format(self::DATE_FORMAT_INPUT);
+        $query['endDate'] = $endDate->format(self::DATE_FORMAT_INPUT);
         $jsonBody = $this->client->sendRequest('GET', $url, $query);
-        $meetings = array();
-        $attendees = array();
+        $meetings = [];
+        $attendees = [];
         foreach ($jsonBody as $meetingAttendee) {
             $meetings[] = new Meeting($meetingAttendee);
             $attendees[] = new Attendee($meetingAttendee);
         }
-        return array(
-            'meetings' => $meetings,
-            'attendees' => $attendees
-        );
+
+        return [
+            'meetings'  => $meetings,
+            'attendees' => $attendees,
+        ];
     }
 
     /**
      * Retrieve a set of meetings using the specified query parameters.
      *
      * @param array $query
+     *
      * @throws \Exception
+     *
      * @return array parsed Meeting objects
      */
     protected function getMeetings(array $query)
@@ -168,7 +177,7 @@ class MeetingService extends AbstractService
         $jsonBody = $this->client->sendRequest('GET', $this->endpoint, $query);
 
         // Parse each meeting result
-        $meetings = array();
+        $meetings = [];
         $jsonMeetings = $jsonBody;
         if (isset($jsonBody['meetings'])) {
             $jsonMeetings = $jsonBody['meetings'];
