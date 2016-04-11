@@ -52,16 +52,16 @@ class MeetingService extends AbstractService
             throw new \Exception('To retrieve historical meetings, startDate and endDate must be specified.');
         }
 
-        $query = new Query();
+        $query = [];
 
         // Adjust start and end dates to the UTC timezone if provided
         $utcTimeZone = new \DateTimeZone('UTC');
         $startDate->setTimezone($utcTimeZone);
         $endDate->setTimezone($utcTimeZone);
 
-        $query->add('startDate', $startDate->format(self::DATE_FORMAT_INPUT))
-            ->add('endDate', $endDate->format(self::DATE_FORMAT_INPUT))
-            ->add('history', 'true');
+        $query['startDate'] = $startDate->format(self::DATE_FORMAT_INPUT);
+        $query['endDate'] =  $endDate->format(self::DATE_FORMAT_INPUT);
+        $query['history'] = 'true';
 
         return $this->getMeetings($query);
     }
@@ -163,7 +163,7 @@ class MeetingService extends AbstractService
      * @throws \Exception
      * @return array parsed Meeting objects
      */
-    protected function getMeetings(Query $query)
+    protected function getMeetings(array $query)
     {
         // Send request
         $jsonBody = $this->client->sendRequest('GET', $this->endpoint, $query);
@@ -174,10 +174,12 @@ class MeetingService extends AbstractService
         if (isset($jsonBody['meetings'])) {
             $jsonMeetings = $jsonBody['meetings'];
         }
+
         foreach ($jsonMeetings as $oneMeeting) {
             $meeting = new Meeting($oneMeeting);
             $meetings[] = $meeting;
         }
+
         return $meetings;
     }
 }

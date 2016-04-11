@@ -19,7 +19,7 @@ class Client
     /**
      * @var string root URL for authorizing requests
      */
-    private $endpoint = 'https://api.citrixonline.com/';
+    private $endpoint = 'https://api.citrixonline.com/G2M/rest';
 
     /**
      * @var string key to access the API
@@ -50,7 +50,7 @@ class Client
     {
         $this->apiKey = $apiKey;
         $this->guzzleClient = new \GuzzleHttp\Client(array(
-            'base_url' => $this->endpoint
+            'base_uri' => $this->endpoint
         ));
         if ($accessToken !== NULL) {
             $auth = new Auth();
@@ -124,7 +124,7 @@ class Client
      * @return mixed
      * @throws \GuzzleHttp\Exception\RequestException
      */
-    public function sendRequest($method, $path, Query $query = null, $isAuthRequest = false, $postBody = null)
+    public function sendRequest($method, $path, array $query = null, $isAuthRequest = false, $postBody = null)
     {
         $guzzleClient = $this->getGuzzleClient();
         $options = array(
@@ -136,17 +136,21 @@ class Client
         if (!$isAuthRequest && isset($this->auth)) {
             $accessToken = $this->auth->getAccessToken();
             $options['headers']['Authorization'] = "OAuth oauth_token={$accessToken}";
-            $path = "G2M/rest/{$path}";
+            $path = "rest/{$path}";
         }
+
+
         if ($query != null) {
             $options['query'] = $query;
         }
         if ($postBody != null && ($method == 'POST' || $method == 'PUT')) {
             $options['json'] = $postBody;
         }
-        $request = $guzzleClient->createRequest($method, $path, $options);
-        $response = $guzzleClient->send($request);
-        return $response->json();
+
+        $request = $guzzleClient->request($method, $path, $options);
+        $response = json_decode($request->getBody(),true);
+
+        return $response;
     }
 
 }
