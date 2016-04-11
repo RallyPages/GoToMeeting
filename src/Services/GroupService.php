@@ -6,7 +6,6 @@
 
 namespace kenobi883\GoToMeeting\Services;
 
-use GuzzleHttp\Query;
 use kenobi883\GoToMeeting\Models\Attendee;
 use kenobi883\GoToMeeting\Models\Group;
 use kenobi883\GoToMeeting\Models\Meeting;
@@ -82,7 +81,7 @@ class GroupService extends AbstractService
         if ($historical === true && ($startDate === null || $endDate === null)) {
             throw new \Exception('To retrieve historical meetings, startDate and endDate must be specified.');
         }
-        $query = new Query();
+        $query = array();
         $url = "{$this->endpoint}/{$groupKey}/meetings";
 
         if ($historical === true) {
@@ -90,12 +89,12 @@ class GroupService extends AbstractService
             $utcTimeZone = new \DateTimeZone('UTC');
             $startDate->setTimezone($utcTimeZone);
             $endDate->setTimezone($utcTimeZone);
-            $query->add('historical', 'true')
-                ->add('startDate', $startDate->format(MeetingService::DATE_FORMAT_INPUT))
-                ->add('endDate', $endDate->format(MeetingService::DATE_FORMAT_INPUT));
+            $query['historical'] = 'true';
+            $query['startDate'] = $startDate->format(MeetingService::DATE_FORMAT_INPUT);
+            $query['endDate'] = $endDate->format(MeetingService::DATE_FORMAT_INPUT);
         }
         else {
-            $query->add('scheduled', 'true');
+            $query['scheduled'] = 'true';
         }
 
         // Send request
@@ -122,9 +121,9 @@ class GroupService extends AbstractService
     public function getAttendeesByGroup($groupKey, \DateTime $startDate, \DateTime $endDate)
     {
         $url = "{$this->endpoint}/{$groupKey}/attendees";
-        $query = new Query();
-        $query->add('startDate', $startDate->format(MeetingService::DATE_FORMAT_INPUT))
-            ->add('endDate', $endDate->format(MeetingService::DATE_FORMAT_INPUT));
+        $query = array();
+        $query['startDate'] = $startDate->format(MeetingService::DATE_FORMAT_INPUT);
+        $query['endDate'] = $endDate->format(MeetingService::DATE_FORMAT_INPUT);
 
         $jsonBody = $this->client->sendRequest('GET', $url, $query);
         $meetings = array();

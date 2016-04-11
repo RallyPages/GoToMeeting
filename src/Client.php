@@ -5,7 +5,6 @@
  */
 
 namespace kenobi883\GoToMeeting;
-use GuzzleHttp\Query;
 use GuzzleHttp\Subscriber\Log\LogSubscriber;
 use kenobi883\GoToMeeting\Models\Auth;
 use Psr\Log\LoggerInterface;
@@ -46,7 +45,7 @@ class Client
      *   to configure the auth property
      * @param LoggerInterface|null $logger logger implementation to log requests and responses against
      */
-    public function __construct($apiKey, $accessToken = NULL, LoggerInterface $logger = NULL)
+    public function __construct($apiKey = null, $accessToken = NULL, LoggerInterface $logger = NULL)
     {
         $this->apiKey = $apiKey;
         $this->guzzleClient = new \GuzzleHttp\Client(array(
@@ -117,7 +116,7 @@ class Client
      *
      * @param string $method HTTP method for the request
      * @param string $path relative URL to append to the root API endpoint
-     * @param \GuzzleHttp\Query $query optional data to send along with request
+     * @param array $query optional data to send along with request
      * @param bool $isAuthRequest optional flag to not pass the OAuth token with request
      *  because we do not have it yet
      * @param array $postBody body content for a POST or PUT request

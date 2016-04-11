@@ -6,7 +6,6 @@
 
 namespace kenobi883\GoToMeeting\Services;
 
-use GuzzleHttp\Query;
 use kenobi883\GoToMeeting\Models\Auth;
 
 /**
@@ -30,11 +29,11 @@ class AuthService extends AbstractService
     public function authenticate($userId, $password)
     {
         $url = "{$this->endpoint}/access_token";
-        $query = new Query();
-        $query->add('grant_type', 'password')
-            ->add('user_id', $userId)
-            ->add('password', $password)
-            ->add('client_id', $this->client->getApiKey());
+        $query = array();
+        $query['grant_type'] = 'password';
+        $query['user_id'] =  $userId;
+        $query['password'] = $password;
+        $query['client_id'] = $this->client->getApiKey();
         $jsonBody = $this->client->sendRequest('GET', $url, $query, true);
         return new Auth($jsonBody);
     }
