@@ -29,7 +29,7 @@ class GoToMeetingServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../../config/citrix.php' => config_path('citrix.php'),
+            __DIR__ . '/config/citrix.php' => config_path('citrix.php'),
         ]);
 
     }
