@@ -1,5 +1,6 @@
 <?php namespace kenobi883\GoToMeeting;
 
+use Illuminate\Support\ServiceProvider;
 
 /**
  *
@@ -42,5 +43,5 @@ class GoToMeetingServiceProvider extends ServiceProvider {
     {
 
     }
-    
+
 }
