@@ -116,7 +116,7 @@ class Meeting implements \JsonSerializable
      *
      * @param array $response optional response body data to populate model
      */
-    public function __construct($response = [])
+    public function __construct(array $response = [])
     {
         $this->parseFromJson($response);
     }
@@ -518,7 +518,7 @@ class Meeting implements \JsonSerializable
         $meetingArray['subject'] = $this->getSubject();
         $meetingArray['starttime'] = $this->getStartTime()->format(MeetingService::DATE_FORMAT_INPUT);
         $meetingArray['endtime'] = $this->getEndTime()->format(MeetingService::DATE_FORMAT_INPUT);
-        $meetingArray['passwordrequired'] = $this->getPasswordRequired() ? 'true' : 'false';
+        $meetingArray['passwordrequired'] = $this->getPasswordRequired() ? true : false;
         $meetingArray['conferencecallinfo'] = $this->getConferenceCallInfo();
         $meetingArray['timezonekey'] = ''; // Deprecated API parameter, but required to be provided as blank string
         $meetingArray['meetingtype'] = $this->getMeetingType();
