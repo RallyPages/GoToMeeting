@@ -122,6 +122,20 @@ class Meeting implements \JsonSerializable
     }
 
     /**
+     * Returns an array of the Meeting model.
+     * @return array
+     */
+    public function toArray()
+    {
+        $class = "\x00" . get_class($this) . "\x00";
+        $me = (array)$this;
+        $arrayKeys = array_map(function($key) use($class){return str_replace($class, "", $key);},array_keys($me));
+
+        return array_combine($arrayKeys,$me);
+    }
+
+    
+    /**
      * @return string
      */
     public function getConferenceCallInfo()
