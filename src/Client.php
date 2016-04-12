@@ -125,17 +125,18 @@ class Client
      */
     public function sendRequest($method, $path, array $query = null, $isAuthRequest = false, $postBody = null)
     {
+
         $guzzleClient = $this->getGuzzleClient();
         $options = [
             'headers' => [
-                'Accept'       => 'application/json',
+                'Accept' => 'application/json',
                 'Content-type' => 'application/json',
             ],
         ];
         if (!$isAuthRequest && isset($this->auth)) {
             $accessToken = $this->auth->getAccessToken();
             $options['headers']['Authorization'] = "OAuth oauth_token={$accessToken}";
-            $path = "rest/{$path}";
+
         }
 
         if ($query != null) {
@@ -145,6 +146,7 @@ class Client
             $options['json'] = $postBody;
         }
 
+        $path = "rest/{$path}";
         $request = $guzzleClient->request($method, $path, $options);
         $response = json_decode($request->getBody(), true);
 
