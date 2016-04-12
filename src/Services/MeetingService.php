@@ -17,7 +17,7 @@ class MeetingService extends AbstractService
     /**
      * @var string
      */
-    protected $endpoint = 'meetings';
+    protected $endpoint = 'rest/meetings';
 
     /**
      * Retrieve a specific meeting from the API.
